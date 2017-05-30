@@ -1,0 +1,44 @@
+incido;fall,attack
+occido;fall,die
+sequor;follow
+persequor;follow perseveringly
+confiteor;confess,admit,acknowledge
+vito;avoid
+devito;avoid
+vagor;wande,ramble
+circumlino;smear around
+adhibeo;use,employ
+cutis;skin
+porcus;pig
+grex;herd,flock,swarm,group,team
+gramen;grass
+talus;ankle
+sudor;sweat
+auris;ear
+auricula;little ear
+asellus;ass,donkey
+mens;mind
+dorsum;back(of the body)
+onus;burden
+voluntas;will,free will,choice
+studium;keenness,diligence
+taeda;torch
+prex;prayer,request
+fur;thief
+agmen;troop,crowd,flock
+pinguis;fat
+nitidus;shining,beautiful
+iucundus;jocund,pleasing
+imus;lowest,last,bottom
+iniquus;unfair,bad
+mollis;soft,gentle
+quoniam;since,now that
+quo;where
+cum;with,when,although,since,because
+ac;and
+atque;and
+misere;desperately
+suaviter;pleasantly
+usque;all the way
+equidem;truly,indeed,in fact,at any rate
+partim;partly

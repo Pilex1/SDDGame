@@ -13,7 +13,6 @@ color backgroundColor;
 // storing if the respective keys are pressed
 boolean keys[];
 
-
 void settings() {
   size(frameWidth, frameHeight);
 }

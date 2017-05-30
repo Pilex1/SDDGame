@@ -13,6 +13,7 @@ class TitleScreen extends GUI {
 
     super.components.add(new Button(new PVector(posX, posY), size, "Singleplayer", new IAction() {
       public void action() {
+        // show the difficulty selection screen and set game option to Singleplayer
         difficultyScreen.setActive(true);
         difficultyScreen.lblPlayerMode.text = "Singleplayer";
         game.gameOption.playerOption = PlayerOption.Singleplayer;
@@ -23,6 +24,7 @@ class TitleScreen extends GUI {
     posY += spacingY + size.y;
     super.components.add(new Button(new PVector(posX, posY), size, "Multiplayer", new IAction() {
       public void action() {
+        // show the difficulty selection screen and set game option to Multiplayer
         difficultyScreen.setActive(true);
         difficultyScreen.lblPlayerMode.text = "Multiplayer";
         game.gameOption.playerOption = PlayerOption.Multiplayer;
@@ -33,6 +35,8 @@ class TitleScreen extends GUI {
     posY += spacingY + size.y;
     super.components.add(new Button(new PVector(posX, posY), size, "Instructions", new IAction() {
       public void action() {
+        // hides the difficulty selection screen (if open) and hides the title screen
+        // shows the instruction screen
         titleScreen.setActive(false);
         difficultyScreen.setActive(false);
         instructionScreen.setActive(true);

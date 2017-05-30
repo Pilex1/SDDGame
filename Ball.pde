@@ -42,9 +42,9 @@ class Ball extends GraphicsComponent {
 
     // collision with bottom wall
     // bounce the ball
-    if (pos.y + size/2 > game.gameHeight) {
+    if (pos.y + size/2 > frameHeight) {
       theta = -1 * theta + 2 * PI;
-      while (pos.y + size/2 > game.gameHeight) {
+      while (pos.y + size/2 > frameHeight) {
         pos.x += speed * cos(theta);
         pos.y += speed * sin(theta);
       }

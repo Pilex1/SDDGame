@@ -11,6 +11,9 @@ class Game extends GUI {
   Ball ball;
 
   GameOption gameOption;
+  
+  QuestionBank questionsEasy;
+  QuestionBank questionsHard;
 
   Game() {
 
@@ -30,6 +33,9 @@ class Game extends GUI {
     components.add(ball);
 
     gameOption = new GameOption();
+    
+    questionsEasy = new QuestionBank("vocabEasy1.txt");
+    questionsHard = new QuestionBank("vocabHard1.txt");
   }
 
   void launchGame() {
@@ -45,6 +51,9 @@ class Game extends GUI {
 
     setActive(true);
     questionsScreen.setActive(true);
+    
+    questionsScreen.generateQuestion();
+
   }
 
   void onRender() {

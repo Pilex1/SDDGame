@@ -1,3 +1,4 @@
+// all graphical elements extend this class
 abstract class GraphicsComponent {
 
   PVector pos;

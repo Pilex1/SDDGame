@@ -1,0 +1,12 @@
+paro;prepare
+ceno;eat
+puer;boy
+auxilium;help
+puella;girl
+canis;dog
+rex;king,prince,leader
+cano;sing
+dico;speak,talk
+filius;son
+agricola;farmer
+casa;house

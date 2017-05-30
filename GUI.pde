@@ -1,3 +1,4 @@
+// represents a screen/display on which GraphicsComponents can be added
 abstract class GUI {
 
   boolean active;
