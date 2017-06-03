@@ -1,27 +1,51 @@
 class Ball extends GraphicsComponent {
 
+  // initial starting position of the ball
+  // when a player loses, the ball also gets reset to this position
+  PVector startingPos;
+
+  // initial starting angle range for the ball
+  // when a player loses, the ball's angle gets set a number between this range
+  float thetaMin;
+  float thetaMax;
+  // angle that the ball is facing in radians
+  float theta;
+
   // speed of the ball
   // should remain constant
   float speed;
-
-  // angle that the ball is facing in radians
-  float theta;
 
   color ballColor;
 
   // diameter of the ball
   float size;
 
-  Ball(PVector pos, float speed, float theta) {
+  // determines if the ball is past the bounds of the game, in which case one of the players have lost
+  boolean outOfBounds;
+
+  Ball(PVector pos) {
     super(pos);
-    this.speed = speed;
-    this.theta = theta;
+    startingPos = new PVector(pos.x, pos.y);
+    speed = 5;
+
+    thetaMin = -PI/8;
+    thetaMax = PI/8;
 
     ballColor = color(191, 99, 99);
-
     size = 32;
-
     active = true;
+    outOfBounds = false;
+
+    resetBall();
+  }
+
+  void resetBall() {
+    pos.x = startingPos.x;
+    pos.y = startingPos.y;
+
+    theta = random(thetaMin, thetaMax);
+
+    outOfBounds = false;
   }
 
   void onUpdate() {
@@ -50,63 +74,64 @@ class Ball extends GraphicsComponent {
       }
     }
 
-    // collision with the left side of the screen
-    if (pos.x - size/2 <= game.paddle1.pos.x + game.paddle1.size.x/2) {
-      if (pos.y + size/2 >= game.paddle1.pos.y - game.paddle1.size.y/2 && pos.y - size/2 <= game.paddle1.pos.y + game.paddle1.size.y/2) {
-        // if it collides with the paddle
-        // then the ball rebounds
-        theta = -1 * theta + PI;
-        while (pos.x - size/2 <= game.paddle1.pos.x + game.paddle1.size.x/2) {
-          pos.x += speed * cos(theta);
-          pos.y += speed * sin(theta);
-        }
-      } else {
-        // else the ball has gone out of the bounds of the screen and the player loses
-               game.setActive(false);
 
+    Paddle paddle1 = game.player1.paddle;
+    Paddle paddle2 = game.player2.paddle;
+
+    if (outOfBounds) {
+
+      if (pos.x - size/2 < 0) {
+        game.player1.lives--;
+
+        // reset the ball
+        resetBall();
+      }
+      if (pos.x + size/2 >= frameWidth) {
+        game.player2.lives--;
+
+        // reset the ball
+        resetBall();
+      }
+    } else {
+      // collision with player 1 paddle (on the left of the screen)
+      // bounce the ball
+      if (pos.x - size/2 <= paddle1.pos.x + paddle1.size.x/2) {
+        if (pos.y + size/2 >= paddle1.pos.y - paddle1.size.y/2 && pos.y - size/2 <= paddle1.pos.y + paddle1.size.y/2) {
+          // if it collides with the paddle
+          // then the ball rebounds
+          theta = -1 * theta + PI;
+          while (pos.x - size/2 <= paddle1.pos.x + paddle1.size.x/2) {
+            pos.x += speed * cos(theta);
+            pos.y += speed * sin(theta);
+          }
+        } else {
+          // ball has gone out of bounds
+          outOfBounds = true;
+        }
+      }
+
+      // collision with player 2 paddle (on the right of the screen)
+      // bounce the ball
+      if (pos.x + size/2 >= paddle2.pos.x - paddle2.size.x/2) {
+        if (pos.y + size/2 >= paddle2.pos.y - paddle2.size.y/2 && pos.y - size/2 <= paddle2.pos.y + paddle2.size.y/2) {
+          // if it collides with the paddle
+          // then the ball rebounds
+          theta = -1 * theta + PI;
+          while (pos.x + size/2 >= paddle2.pos.x - paddle2.size.x/2) {
+            pos.x += speed * cos(theta);
+            pos.y += speed * sin(theta);
+          }
+        } else {
+          // ball has gone out of bounds
+          outOfBounds = true;
+        }
       }
     }
-
-    // collision with player 2 paddle (on the right of the screen)
-    // bounce the ball
-    if (pos.x + size/2 >= game.paddle2.pos.x - game.paddle2.size.x/2) {
-      if (pos.y + size/2 >= game.paddle2.pos.y - game.paddle2.size.y/2 && pos.y - size/2 <= game.paddle2.pos.y + game.paddle2.size.y/2) {
-        // if it collides with the paddle
-        // then the ball rebounds
-        theta = -1 * theta + PI;
-        while (pos.x + size/2 >= game.paddle2.pos.x - game.paddle2.size.x/2) {
-          pos.x += speed * cos(theta);
-          pos.y += speed * sin(theta);
-        }
-      } else {
-        // else the ball has gone out of the bounds of the screen and the player loses
-        game.setActive(false);
-      }
-    }
-
-  
-  
-    // DEBUGGING CODE
-    /*
-    float temp = 1;
-    if (keys['t']) {
-      pos.y -= temp;
-    }
-    if (keys['g']) {
-      pos.y += temp;
-    }
-    if (keys['f']) {
-      pos.x -= temp;
-    }
-    if (keys['h']) {
-      pos.x += temp;
-    }
-    */
-    
   }
 
   void onRender() {
     fill(ballColor);
+    strokeWeight(0);
     ellipse(pos.x, pos.y, size, size);
   }
 }

@@ -1,45 +1,57 @@
 class QuestionsScreen extends GUI {
 
-  // cooldown after a question has been answered before another question can be answered again
-  int cooldown;
+  // after a question is answered, the questions get faded out for this amount of time
+  int fadeTime;
+  // after the questions are faded out, the questions screen remains black for this amount of time, before a new question gets released
+  int waitTime;
+
   int curCooldown;
 
   // label for the question
   Label question;
 
   // labels for displaying the four possible answers
-  Label answerA;
-  Label answerB;
-  Label answerC;
-  Label answerD;
+  AnswerLabel answerA;
+  AnswerLabel answerB;
+  AnswerLabel answerC;
+  AnswerLabel answerD;
 
   // should point to either answerA, answerB, answerC or answerD
   // not actually rendered to the screen
   // just used to keep track of which label contains the correct answer
-  Label correctAnswer;
+  AnswerLabel correctAnswer;
 
   QuestionsScreen() {
+    
+    fadeTime = 100;
+    waitTime = 200;
+    
     question = new Label(new PVector(frameWidth/2, 50), "Question");
 
     int incrX = frameWidth/4;
-    int curX = incrX/2;
+    int yPos = 100;
+    int curX = 0;
 
-    answerA = new Label(new PVector(curX, 100), "A");
+    answerA = new AnswerLabel(new PVector(curX, yPos), new PVector(incrX, 100), "A");
     curX += incrX;
 
-    answerB = new Label(new PVector(curX, 100), "B");
+    answerB = new AnswerLabel(new PVector(curX, yPos), new PVector(incrX, 100), "B");
     curX += incrX;
 
-    answerC = new Label(new PVector(curX, 100), "C");
+    answerC = new AnswerLabel(new PVector(curX, yPos), new PVector(incrX, 100), "C");
     curX += incrX;
 
-    answerD = new Label(new PVector(curX, 100), "D");
+    answerD = new AnswerLabel(new PVector(curX, yPos), new PVector(incrX, 100), "D");
 
     components.add(question);
     components.add(answerA);
     components.add(answerB);
     components.add(answerC);
     components.add(answerD);
+  }
+
+  void nextQuestion() {
+    curCooldown = fadeTime + waitTime;
   }
 
   void generateQuestion() {
@@ -72,7 +84,7 @@ class QuestionsScreen extends GUI {
     // correct answer stored in index 0
     answers[0] = englishAnswer;
     used[0] = correctID;
-    
+
 
 
     for (int i = 0; i < 3; i++) {
@@ -148,26 +160,102 @@ class QuestionsScreen extends GUI {
   }
 
   void onUpdate() {
-    if (keys['1']) {
-    }
-    if (keys['2']) {
-    }
-    if (keys['3']) {
-    }
-    if (keys['4']) {
-    }
-    if (keys['7']) {
-    }
-    if (keys['8']) {
-    }
-    if (keys['9']) {
-    }
-    if (keys['0']) {
+    if (curCooldown > waitTime) {
+      // fading out
+      setActive(true);
+      
+      curCooldown--;
+    } else if (curCooldown > 1) {
+      // empty questions, blank screen, waiting
+      setComponentsActive(false);
+      
+      curCooldown--;
+    } else if (curCooldown == 1) {
+      // load new questions
+      generateQuestion();
+      setComponentsActive(true);
+      answerA.setNone();
+      answerB.setNone();
+      answerC.setNone();
+      answerD.setNone();
+      
+      curCooldown--;
+    } else {
+      setActive(true);      
+
+      // player 1
+      if (keys['1']) {
+        if (correctAnswer == answerA) {
+          answerA.setCorrect();
+          nextQuestion();
+        } else {
+          answerA.setIncorrect();
+        }
+      }
+      if (keys['2']) {
+        if (correctAnswer == answerB) {
+          answerB.setCorrect();
+          nextQuestion();
+        } else {
+          answerB.setIncorrect();
+        }
+      }
+      if (keys['3']) {
+        if (correctAnswer == answerC) {
+          answerC.setCorrect();
+          nextQuestion();
+        } else {
+          answerC.setIncorrect();
+        }
+      }
+      if (keys['4']) {
+        if (correctAnswer == answerD) {
+          answerD.setCorrect();
+          nextQuestion();
+        } else {
+          answerD.setIncorrect();
+        }
+      }
+
+      // player 2
+      if (keys['7']) {
+        if (correctAnswer == answerA) {
+          answerA.setCorrect();
+          nextQuestion();
+        } else {
+          answerA.setIncorrect();
+        }
+      }
+      if (keys['8']) {
+        if (correctAnswer == answerB) {
+         answerB.setCorrect();
+         nextQuestion();
+        } else {
+          answerB.setIncorrect();
+        }
+      }
+      if (keys['9']) {
+        if (correctAnswer == answerC) {
+         answerC.setCorrect();
+         nextQuestion();
+        } else {
+          answerC.setIncorrect();
+        }
+      }
+      if (keys['0']) {
+        if (correctAnswer == answerD) {
+         answerD.setCorrect();
+         nextQuestion();
+        } else {
+          answerD.setIncorrect();
+        }
+      }
     }
   }
 
   void onRender() {
     fill(0, 0, 0);
+    strokeWeight(0);
     rect(0, 0, frameWidth, game.heightOffset);
   }
 }

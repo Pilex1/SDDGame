@@ -44,6 +44,7 @@ class Paddle extends GraphicsComponent {
 
   void onRender() {
     fill(paddleColor);
+    strokeWeight(0);
     rect(pos.x - size.x / 2, pos.y - size.y / 2, size.x, size.y);
   }
 }

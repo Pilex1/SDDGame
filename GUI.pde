@@ -15,13 +15,16 @@ abstract class GUI {
   // can be overriden in sub-classes for additional functionality when the GUI is set inactive
   void onSetInactive() {
   }
-  final void setActive(boolean active) {
-    this.active = active;
-
+  final void setComponentsActive(boolean active) {
     for (GraphicsComponent b : components) {
       assert b != null;
       b.active = active;
     }
+  }
+  final void setActive(boolean active) {
+    this.active = active;
+
+    setComponentsActive(active);
 
     if (active) {
       onSetActive();
@@ -62,5 +65,29 @@ abstract class GUI {
         ((Button)g).resetCooldown();
       }
     }
+  }
+}
+
+// all graphical elements extend this class
+abstract class GraphicsComponent {
+
+  PVector pos;
+  boolean active;
+
+  GraphicsComponent(PVector pos) {
+    this.pos = pos;
+    active = false;
+  }
+
+  abstract void onUpdate();
+  void update() {
+    if (!active) return;
+    onUpdate();
+  }
+
+  abstract void onRender();
+  void render() {
+    if (!active) return;
+    onRender();
   }
 }

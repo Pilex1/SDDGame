@@ -1,17 +1,26 @@
 class Label extends GraphicsComponent {
 
+  // size of the label rectangle
+  PVector size;
+
   PFont font;
-  int size;
-  String text;
+  int textSize;
   color textColor;
+
+  String text;
 
   int hAlign;
   int vAlign;
-
+  
   Label(PVector pos, String text) {
+   this(pos, new PVector(0, 0), text); 
+  }
+
+  Label(PVector pos, PVector size, String text) {
     super(pos);
+    this.size = size;
     font = createFont("Calibri", 1);
-    size = 32;
+    textSize = 32;
     this.text = text;
     textColor = color(255, 255, 255);
     hAlign = CENTER;
@@ -25,7 +34,7 @@ class Label extends GraphicsComponent {
     textAlign(hAlign, vAlign);
     fill(textColor);
     textFont(font);
-    textSize(size);
-    text(text, pos.x, pos.y);
+    textSize(textSize);
+    text(text, pos.x + size.x/2, pos.y + size.y/2);
   }
 }

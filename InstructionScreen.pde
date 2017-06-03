@@ -4,7 +4,7 @@ class InstructionScreen extends GUI {
 
     // label that says Instructions in big font
     Label lbl = new Label(new PVector(100, 100), "Instructions");
-    lbl.size = 48;
+    lbl.textSize = 48;
     lbl.hAlign = LEFT;
     components.add(lbl);
     

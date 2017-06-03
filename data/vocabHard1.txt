@@ -1,13 +1,33 @@
-incido;fall,attack
-occido;fall,die
-sequor;follow
-persequor;follow perseveringly
-confiteor;confess,admit,acknowledge
-vito;avoid
-devito;avoid
-vagor;wande,ramble
-circumlino;smear around
-adhibeo;use,employ
+VERBS
+incido;I fall,I attack
+occido;I fall,die
+sequor;I follow
+persequor;I follow
+confiteor;I confess,I admit,I acknowledge
+vito;I avoid
+devito;I avoid
+vagor;I wander,I ramble
+circumlino;I smear around
+adhibeo;I use,I employ
+postulo;I demand
+pareo;I obey
+pario;I bear
+hortor;I encourage
+arceo;I keep off	
+decet;it is proper
+placet;it is pleasing
+licet;it is allowed
+decipio;I catch
+coeo;I meet,I assemble
+aio;I say
+faveo;I favour
+lateo;I hide,I sulk
+redundo;I overflow,I pour
+patefacio;I open,I disclose
+illustro;I illuminate,I brighten,I elucidate,I explain
+pando;I spread,I extend,I unfold,I expand
+
+NOUNS
 cutis;skin
 porcus;pig
 grex;herd,flock,swarm,group,team
@@ -18,7 +38,7 @@ auris;ear
 auricula;little ear
 asellus;ass,donkey
 mens;mind
-dorsum;back(of the body)
+dorsum;back (body)
 onus;burden
 voluntas;will,free will,choice
 studium;keenness,diligence
@@ -26,17 +46,31 @@ taeda;torch
 prex;prayer,request
 fur;thief
 agmen;troop,crowd,flock
+divus;divinity
+deus;god
+bracchia;arm
+collum;neck
+macies;thinness
+acervus;heap,pile,stack,treasure
+pudor;shame,disgrace,humiliation,modesty,decency
+
+ADJECTIVES
 pinguis;fat
 nitidus;shining,beautiful
 iucundus;jocund,pleasing
 imus;lowest,last,bottom
 iniquus;unfair,bad
 mollis;soft,gentle
+cunctus;whole,collectively
+
+CONJUNCTIONS
 quoniam;since,now that
 quo;where
 cum;with,when,although,since,because
 ac;and
 atque;and
+
+ADVERBS
 misere;desperately
 suaviter;pleasantly
 usque;all the way

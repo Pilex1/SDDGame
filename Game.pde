@@ -6,8 +6,9 @@ class Game extends GUI {
   // height offset for the questions GUI
   int heightOffset;
 
-  Paddle paddle1;
-  Paddle paddle2;
+  Player player1;
+  Player player2;
+
   Ball ball;
 
   GameOption gameOption;
@@ -24,9 +25,13 @@ class Game extends GUI {
 
     PVector paddleSize = new PVector(20, 100);
 
-    paddle1 = new Paddle('w', 's', new PVector(paddleSize.x/2, gameHeight/2 + heightOffset), paddleSize);
-    paddle2 = new Paddle('i', 'k', new PVector(gameWidth - paddleSize.x/2, gameHeight/2 + heightOffset), paddleSize);
-    ball = new Ball(new PVector(gameWidth/2, gameHeight/2 + heightOffset), 18, 0.1);
+    Paddle paddle1 = new Paddle('w', 's', new PVector(paddleSize.x/2, gameHeight/2 + heightOffset), paddleSize);
+    Paddle paddle2 = new Paddle('i', 'k', new PVector(gameWidth - paddleSize.x/2, gameHeight/2 + heightOffset), paddleSize);
+  
+    player1 = new Player(paddle1);
+    player2 = new Player(paddle2);
+  
+    ball = new Ball(new PVector(gameWidth/2, gameHeight/2 + heightOffset));
 
     components.add(paddle1);
     components.add(paddle2);
@@ -69,4 +74,21 @@ class Game extends GUI {
       ball.pos.y = height/2;
     }
   }
+}
+
+enum PlayerOption {
+   Singleplayer, Multiplayer 
+}
+enum DifficultyOption {
+   Easy, Hard 
+}
+
+class GameOption {
+   PlayerOption playerOption;
+   DifficultyOption difficulty;
+   
+   GameOption() {
+    playerOption = null;
+    difficulty = null;
+   }
 }
