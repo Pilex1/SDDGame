@@ -26,6 +26,10 @@ redundo;I overflow,I pour
 patefacio;I open,I disclose
 illustro;I illuminate,I brighten,I elucidate,I explain
 pando;I spread,I extend,I unfold,I expand
+cubo;I lie down,I recline
+procumbo;I fall forward
+haereo;I persist,I follow
+peto;I ask,I beg,I request
 
 NOUNS
 cutis;skin
@@ -53,6 +57,8 @@ collum;neck
 macies;thinness
 acervus;heap,pile,stack,treasure
 pudor;shame,disgrace,humiliation,modesty,decency
+facies;shape,figure,appearance
+crines;hair
 
 ADJECTIVES
 pinguis;fat
@@ -76,3 +82,4 @@ suaviter;pleasantly
 usque;all the way
 equidem;truly,indeed,in fact,at any rate
 partim;partly
+humi;on the ground

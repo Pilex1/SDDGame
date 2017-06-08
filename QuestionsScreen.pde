@@ -22,10 +22,10 @@ class QuestionsScreen extends GUI {
   AnswerLabel correctAnswer;
 
   QuestionsScreen() {
-    
-    fadeTime = 100;
-    waitTime = 200;
-    
+
+    fadeTime = 50;
+    waitTime = 808;
+
     question = new Label(new PVector(frameWidth/2, 50), "Question");
 
     int incrX = frameWidth/4;
@@ -74,7 +74,6 @@ class QuestionsScreen extends GUI {
     String latinQuestion = pair.latin;
     question.text = latinQuestion;
     String englishAnswer = pair.englishTranslations[int(random(pair.englishTranslations.length))];
-
 
     // IDs of the questions already used, so as to avoid duplicates
     int[] used = new int[] {-1, -1, -1, -1};
@@ -163,12 +162,12 @@ class QuestionsScreen extends GUI {
     if (curCooldown > waitTime) {
       // fading out
       setActive(true);
-      
+
       curCooldown--;
     } else if (curCooldown > 1) {
       // empty questions, blank screen, waiting
       setComponentsActive(false);
-      
+
       curCooldown--;
     } else if (curCooldown == 1) {
       // load new questions
@@ -178,76 +177,109 @@ class QuestionsScreen extends GUI {
       answerB.setNone();
       answerC.setNone();
       answerD.setNone();
-      
+
       curCooldown--;
     } else {
-      setActive(true);      
+      setActive(true); 
+      
+      game.player1.update();
+      game.player2.update();
 
       // player 1
-      if (keys['1']) {
-        if (correctAnswer == answerA) {
-          answerA.setCorrect();
-          nextQuestion();
-        } else {
-          answerA.setIncorrect();
+      if (game.player1.curAnswerCooldown == 0) {
+        if (keys['1']) {
+          if (correctAnswer == answerA) {
+            answerA.setCorrect();
+            game.player1.paddle.increaseSize();
+            nextQuestion();
+          } else {
+            answerA.setIncorrect();
+            game.player1.paddle.decreaseSize();
+          }
+          game.player1.startCooldown();
         }
-      }
-      if (keys['2']) {
-        if (correctAnswer == answerB) {
-          answerB.setCorrect();
-          nextQuestion();
-        } else {
-          answerB.setIncorrect();
+        if (keys['2']) {
+          if (correctAnswer == answerB) {
+            answerB.setCorrect();
+            game.player1.paddle.increaseSize();
+            nextQuestion();
+          } else {
+            answerB.setIncorrect();
+            game.player1.paddle.decreaseSize();
+          }
+          game.player1.startCooldown();
         }
-      }
-      if (keys['3']) {
-        if (correctAnswer == answerC) {
-          answerC.setCorrect();
-          nextQuestion();
-        } else {
-          answerC.setIncorrect();
+        if (keys['3']) {
+          if (correctAnswer == answerC) {
+            answerC.setCorrect();
+            game.player1.paddle.increaseSize();
+            nextQuestion();
+          } else {
+            answerC.setIncorrect();
+            game.player1.paddle.decreaseSize();
+          }
+          game.player1.startCooldown();
         }
-      }
-      if (keys['4']) {
-        if (correctAnswer == answerD) {
-          answerD.setCorrect();
-          nextQuestion();
-        } else {
-          answerD.setIncorrect();
+        if (keys['4']) {
+          if (correctAnswer == answerD) {
+            answerD.setCorrect();
+            game.player1.paddle.increaseSize();
+            nextQuestion();
+          } else {
+            answerD.setIncorrect();
+            game.player1.paddle.decreaseSize();
+          }
+          game.player1.startCooldown();
         }
       }
 
+
       // player 2
-      if (keys['7']) {
-        if (correctAnswer == answerA) {
-          answerA.setCorrect();
-          nextQuestion();
-        } else {
-          answerA.setIncorrect();
+      if (game.player2.curAnswerCooldown == 0) {
+        if (keys['7']) {
+          if (correctAnswer == answerA) {
+            answerA.setCorrect();
+
+            game.player2.paddle.increaseSize();
+            nextQuestion();
+          } else {
+            answerA.setIncorrect();
+            game.player2.paddle.decreaseSize();
+          }
+          game.player2.startCooldown();
         }
-      }
-      if (keys['8']) {
-        if (correctAnswer == answerB) {
-         answerB.setCorrect();
-         nextQuestion();
-        } else {
-          answerB.setIncorrect();
+        if (keys['8']) {
+          if (correctAnswer == answerB) {
+            answerB.setCorrect();
+            game.player2.paddle.increaseSize();
+            nextQuestion();
+          } else {
+            answerB.setIncorrect();
+            game.player2.paddle.decreaseSize();
+          }
+          game.player2.startCooldown();
         }
-      }
-      if (keys['9']) {
-        if (correctAnswer == answerC) {
-         answerC.setCorrect();
-         nextQuestion();
-        } else {
-          answerC.setIncorrect();
+        if (keys['9']) {
+          if (correctAnswer == answerC) {
+            answerC.setCorrect();
+            game.player2.paddle.increaseSize();
+            nextQuestion();
+          } else {
+            answerC.setIncorrect();
+            game.player2.paddle.decreaseSize();
+          }
+          game.player2.startCooldown();
         }
-      }
-      if (keys['0']) {
-        if (correctAnswer == answerD) {
-         answerD.setCorrect();
-         nextQuestion();
-        } else {
-          answerD.setIncorrect();
+        if (keys['0']) {
+          if (correctAnswer == answerD) {
+            answerD.setCorrect();
+            game.player2.paddle.increaseSize();
+            nextQuestion();
+          } else {
+            answerD.setIncorrect();
+            game.player2.paddle.decreaseSize();
+          }
+          game.player2.startCooldown();
         }
       }
     }
