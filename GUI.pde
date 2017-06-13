@@ -46,7 +46,7 @@ abstract class GUI {
     }
   }
 
-  // can be overriden in sub-classes for additional functionality when the GUI is rendering
+  // can be overriden in sub-classes for additional functionality when the GUI is rendering e.g. change the background color
   void onRender() {
   }
   // by default, the GUI renders everything in the components list

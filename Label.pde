@@ -15,7 +15,9 @@ class Label extends GraphicsComponent {
   Label(PVector pos, String text) {
    this(pos, new PVector(0, 0), text); 
   }
-
+  
+  // size is not the actual size of the text (this is textSize), but the size of the imaginary "box" surrounding the label
+  // it is used in calculations for the positioning of the text
   Label(PVector pos, PVector size, String text) {
     super(pos);
     this.size = size;

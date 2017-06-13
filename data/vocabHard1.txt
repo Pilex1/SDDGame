@@ -1,6 +1,6 @@
 VERBS
 incido;I fall,I attack
-occido;I fall,die
+occido;I fall,I die
 sequor;I follow
 persequor;I follow
 confiteor;I confess,I admit,I acknowledge
@@ -55,10 +55,11 @@ deus;god
 bracchia;arm
 collum;neck
 macies;thinness
-acervus;heap,pile,stack,treasure
+acervus;pile (of objects),stack (of objects),treasure
 pudor;shame,disgrace,humiliation,modesty,decency
 facies;shape,figure,appearance
 crines;hair
+humus;ground
 
 ADJECTIVES
 pinguis;fat
@@ -82,4 +83,3 @@ suaviter;pleasantly
 usque;all the way
 equidem;truly,indeed,in fact,at any rate
 partim;partly
-humi;on the ground

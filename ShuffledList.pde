@@ -19,27 +19,57 @@ class ShuffledList<T> {
   // stores where we are up to in each of the halves
   int firstIndex;
   int secondIndex;
+  
+  ShuffledList() {
+    this(new ArrayList<T>());
+  }
 
   ShuffledList(ArrayList<T> originalList) {
     
     firstHalf = new ArrayList<T>();
     secondHalf = new ArrayList<T>();
     
-    // splitting the original list
-    for (int i = 0; i < originalList.size()/2; i++) {
-      firstHalf.add(originalList.get(i));
-    }
-    for (int i = originalList.size()/2; i < originalList.size(); i++) {
-      secondHalf.add(originalList.get(i));
+    Collections.shuffle(originalList);
+    
+    // adding elements
+    for (T t : originalList) {
+      add(t);
     }
     
-    shuffleList();
+    shuffle();
+  }
+  
+  // size of the shuffled list
+  int size() {
+    return firstHalf.size() + secondHalf.size();
   }
 
-  // private method to be called when both halves have been iterated through to shuffle both halves.
-  void shuffleList() {
+  // shuffles both halves.
+  void shuffle() {
     Collections.shuffle(firstHalf);
     Collections.shuffle(secondHalf);
+  }
+  
+  // adds an element to the shuffled list
+  void add(T t) {
+    if (firstHalf.size() <= secondHalf.size()) {
+     firstHalf.add(t); 
+    }else{
+     secondHalf.add(t); 
+    }
+  }
+  
+  // gets a random element
+  T getRandom() {
+    T result;
+    if (random(0, 1) < 0.5) {
+      int index = int(random(firstHalf.size()));
+      result = firstHalf.get(index);
+    } else {
+      int index = int(random(secondHalf.size()));
+      result = secondHalf.get(index);
+    }
+    return result;
   }
 
   T getNext() {
@@ -50,13 +80,15 @@ class ShuffledList<T> {
     } else if (secondIndex < secondHalf.size()) {
       result = secondHalf.get(secondIndex);
       secondIndex++;
+    } else {
+     assert false; 
     }
     assert result != null;
     
     if (secondIndex == secondHalf.size()) {
       firstIndex = 0;
       secondIndex = 0;
-      shuffleList();
+      shuffle();
     }
     return result;
   }

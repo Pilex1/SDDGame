@@ -3,15 +3,17 @@ final int frameHeight = 720;
 
 ArrayList<GUI> guis;
 TitleScreen titleScreen;
-DifficultyScreen difficultyScreen;
+DifficultyOverlay difficultyScreen;
 InstructionScreen instructionScreen;
 QuestionsScreen questionsScreen;
+SplashScreen splashScreen;
 Game game;
 
-color backgroundColor;
+Label copyright;
 
 // storing if the respective keys are pressed
 boolean keys[];
+boolean keyEscape;
 
 void settings() {
   size(frameWidth, frameHeight);
@@ -24,17 +26,19 @@ void setup() {
   guis.add(game);
 
   titleScreen = new TitleScreen();
-  titleScreen.setActive(true);
-  difficultyScreen = new DifficultyScreen();
+  difficultyScreen = new DifficultyOverlay();
   instructionScreen = new InstructionScreen();
   questionsScreen = new QuestionsScreen();
+  splashScreen = new SplashScreen();
+  splashScreen.setActive(true);
 
+  guis.add(splashScreen);
   guis.add(titleScreen);
   guis.add(difficultyScreen);
   guis.add(instructionScreen);
   guis.add(questionsScreen);
-
-  backgroundColor = color(38, 23, 84);
+  
+  copyright = 
 
   keys = new boolean[255];
 }
@@ -42,13 +46,14 @@ void setup() {
 void draw() {
 
   if (frameCount % 60 == 0) {
-    surface.setTitle("SDD Game - Copyright Alex Tan 2017 | FPS: " + int(frameRate));
+    surface.setTitle("Latin Pong - Copyright Alex Tan 2017 | FPS: " + int(frameRate));
   }
 
   background(0, 0, 0);
   for (GUI gui : guis) {
     gui.update();
   }
+  
   for (GUI gui : guis) {
     gui.render();
   }
@@ -63,5 +68,9 @@ void keyPressed() {
 void keyReleased() {
   if (key >= 0 && key <= 255) {
     keys[key] = false;
+  }
+  if (keyCode == ESC) {
+    keyEscape = true;
+    key = 0;
   }
 }

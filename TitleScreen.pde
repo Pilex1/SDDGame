@@ -54,6 +54,6 @@ class TitleScreen extends GUI {
   }
 
   void onRender() {
-    background(backgroundColor);
+    background(game.backgroundColor);
   }
 }

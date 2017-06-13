@@ -15,9 +15,13 @@ class Game extends GUI {
   
   QuestionBank questionsEasy;
   QuestionBank questionsHard;
+  
+  color backgroundColor;
 
   Game() {
 
+    backgroundColor = color(38, 23, 84);
+    
     heightOffset = 200;
 
     gameWidth = frameWidth;
@@ -65,15 +69,6 @@ class Game extends GUI {
     background(backgroundColor);
   }
 
-  void onUpdate() {
-
-    // DEBUG CODE
-    // press space to bring the ball back to the center
-    if (keys[' ']) {
-      ball.pos.x = width/2;
-      ball.pos.y = height/2;
-    }
-  }
 }
 
 enum PlayerOption {

@@ -25,6 +25,6 @@ class InstructionScreen extends GUI {
   }
   
   void onRender() {
-     background(backgroundColor); 
+     background(game.backgroundColor); 
   }
 }

@@ -6,52 +6,43 @@ class AnswerLabel extends Label {
   color borderIncorrectColor;
   color borderNeitherColor;
 
-  color borderCurrentColor;
-
-  int incorrectCooldown;
-  int curIncorrectCooldown;
+  AnswerStatus status;
 
   AnswerLabel(PVector pos, PVector size, String text) {
     super(pos, size, text);
+
+    status = AnswerStatus.None;
 
     borderCorrectColor = color(20, 255, 0);
     borderIncorrectColor = color(255, 0, 20);
     borderNeitherColor = color(0, 0, 0);
 
     borderWidth = 3;
-
-    incorrectCooldown = 20;
   }
 
-  // call this to set the correct state
-  void setCorrect() {
-    borderCurrentColor = borderCorrectColor;
-  }
-
-  // call this to set the incorrect state
-  void setIncorrect() {
-    curIncorrectCooldown = incorrectCooldown;
-  }
-
-  // call this to set the state to neither
-  void setNone() {
-    borderCurrentColor = borderNeitherColor;
-  }
-
-  void onUpdate() {
-    if (curIncorrectCooldown > 0) {
-      curIncorrectCooldown--;
-      
-      float ratio = (float)curIncorrectCooldown / incorrectCooldown;
-      borderCurrentColor = color(ratio * red(borderIncorrectColor), ratio * green(borderIncorrectColor), ratio * blue(borderIncorrectColor));
-    } 
+  void setStatus(AnswerStatus status) {
+    this.status = status;
   }
 
   void onRender() {
     super.onRender(); 
-    stroke(borderCurrentColor);
+    
+    if (status == AnswerStatus.None) {
+      stroke(borderNeitherColor);
+    } else if (status == AnswerStatus.Correct) {
+      stroke(borderCorrectColor);
+    } else if (status == AnswerStatus.Incorrect) {
+      stroke(borderIncorrectColor);
+    } else {
+     assert false; 
+    }
     strokeWeight(borderWidth);
+    
     fill(0, 0, 0, 0);
     rect(pos.x + borderWidth, pos.y + borderWidth, size.x - borderWidth*2, size.y - borderWidth*2);
   }
+}
+
+enum AnswerStatus {
+ None, Correct, Incorrect 
 }

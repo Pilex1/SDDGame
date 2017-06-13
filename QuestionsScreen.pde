@@ -23,8 +23,8 @@ class QuestionsScreen extends GUI {
 
   QuestionsScreen() {
 
-    fadeTime = 50;
-    waitTime = 808;
+    fadeTime = 40;
+    waitTime = 50;
 
     question = new Label(new PVector(frameWidth/2, 50), "Question");
 
@@ -57,105 +57,33 @@ class QuestionsScreen extends GUI {
   void generateQuestion() {
 
     assert question != null;
-
     assert answerA != null;
     assert answerB != null;
     assert answerC != null;
     assert answerD != null;
-
     QuestionBank bank = game.gameOption.difficulty == DifficultyOption.Easy ? game.questionsEasy : game.questionsHard;
     assert bank != null;
 
-    int numQuestions = bank.questions.size();
+    QuestionAnswerChoice choice = bank.generate();
+    question.text = choice.question;
 
-    // generates a random question from the question bank
-    int correctID = int(random(numQuestions));
-    LatinEnglishPair pair = bank.questions.get(correctID);
-    String latinQuestion = pair.latin;
-    question.text = latinQuestion;
-    String englishAnswer = pair.englishTranslations[int(random(pair.englishTranslations.length))];
+    answerA.text = choice.answerA;
+    answerB.text = choice.answerB;
+    answerC.text = choice.answerC;
+    answerD.text = choice.answerD;
 
-    // IDs of the questions already used, so as to avoid duplicates
-    int[] used = new int[] {-1, -1, -1, -1};
-    // four possible multiple choice answers
-    String[] answers = new String[4];
-
-    // correct answer stored in index 0
-    answers[0] = englishAnswer;
-    used[0] = correctID;
-
-
-
-    for (int i = 0; i < 3; i++) {
-      // find a random question that has not already been used for incorrect answers
-      int questionID = genRandomExcluding(numQuestions, used);
-
-      // add the questionID to the used array
-      used[i+1] = questionID;
-
-      LatinEnglishPair incorrectPair = bank.questions.get(questionID);
-
-      String incorrectAnswer = incorrectPair.englishTranslations[int(random(incorrectPair.englishTranslations.length))];
-
-      // store the incorrect answers;
-      answers[i+1] = incorrectAnswer;
-    }
-
-    // shuffle the answers
-    durstenfeldShuffle(answers);
-
-
-    answerA.text = answers[0];
-    answerB.text = answers[1];
-    answerC.text = answers[2];
-    answerD.text = answers[3];
-
-    if (answers[0] == englishAnswer) {
+    if (answerA.text == choice.correctAnswer) {
       correctAnswer = answerA;
-    } else if (answers[1] == englishAnswer) {
+    } else if (answerB.text == choice.correctAnswer) {
       correctAnswer = answerB;
-    } else if (answers[2] == englishAnswer) {
+    } else if (answerC.text == choice.correctAnswer) {
       correctAnswer = answerC;
-    } else if (answers[3] == englishAnswer) {
+    } else if (answerD.text == choice.correctAnswer) {
       correctAnswer = answerD;
     } else {
       // one of the answers should be the correct answer
       assert false;
     }
-    assert correctAnswer != null;
-  }
-
-  // shuffles the array using the Durstenfeld algorithm
-  void durstenfeldShuffle(String[] arr) {
-    Random rnd = new Random();
-    for (int i = arr.length - 1; i > 0; i--) {
-      int index = rnd.nextInt(i + 1);
-
-      String a = arr[index];
-      arr[index] = arr[i];
-      arr[i] = a;
-    }
-  }
-
-  // returns if arr contains x
-  boolean contains(int[] arr, int x) {
-    for (int i = 0; i < arr.length; i++) {
-      if (arr[i] == x) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // generates a random integer from 0 to n (exclusive), excluding those in int[] excluding
-  int genRandomExcluding(int n, int[] excluding) {
-    int result = 0;
-    boolean flag = true;
-    while (flag) {
-      result = int(random(n));
-      if (!contains(excluding, result)) break;
-    }
-    return result;
   }
 
   void onUpdate() {
@@ -173,115 +101,114 @@ class QuestionsScreen extends GUI {
       // load new questions
       generateQuestion();
       setComponentsActive(true);
-      answerA.setNone();
-      answerB.setNone();
-      answerC.setNone();
-      answerD.setNone();
+      answerA.setStatus(AnswerStatus.None);
+      answerB.setStatus(AnswerStatus.None);
+      answerC.setStatus(AnswerStatus.None);
+      answerD.setStatus(AnswerStatus.None);
+      
+      game.player1.setAnswered(false);
+      game.player2.setAnswered(false);
 
       curCooldown--;
     } else {
       setActive(true); 
-      
-      game.player1.update();
-      game.player2.update();
 
       // player 1
-      if (game.player1.curAnswerCooldown == 0) {
-        if (keys['1']) {
+      if (!game.player1.answered) {
+        if (keys['1'] && answerA.status != AnswerStatus.Incorrect) {
           if (correctAnswer == answerA) {
-            answerA.setCorrect();
+            answerA.setStatus(AnswerStatus.Correct);
             game.player1.paddle.increaseSize();
-            nextQuestion();
           } else {
-            answerA.setIncorrect();
+            answerA.setStatus(AnswerStatus.Incorrect);
             game.player1.paddle.decreaseSize();
           }
-          game.player1.startCooldown();
+          game.player1.setAnswered(true);
         }
-        if (keys['2']) {
+        if (keys['2'] && answerB.status != AnswerStatus.Incorrect) {
           if (correctAnswer == answerB) {
-            answerB.setCorrect();
+            answerB.setStatus(AnswerStatus.Correct);
             game.player1.paddle.increaseSize();
-            nextQuestion();
           } else {
-            answerB.setIncorrect();
+            answerB.setStatus(AnswerStatus.Incorrect);
             game.player1.paddle.decreaseSize();
           }
-          game.player1.startCooldown();
+          game.player1.setAnswered(true);
         }
-        if (keys['3']) {
+        if (keys['3'] && answerC.status != AnswerStatus.Incorrect) {
           if (correctAnswer == answerC) {
-            answerC.setCorrect();
+            answerC.setStatus(AnswerStatus.Correct);
             game.player1.paddle.increaseSize();
-            nextQuestion();
           } else {
-            answerC.setIncorrect();
+            answerC.setStatus(AnswerStatus.Incorrect);
             game.player1.paddle.decreaseSize();
           }
-          game.player1.startCooldown();
+          game.player1.setAnswered(true);
         }
-        if (keys['4']) {
+        if (keys['4'] && answerD.status != AnswerStatus.Incorrect) {
           if (correctAnswer == answerD) {
-            answerD.setCorrect();
+            answerD.setStatus(AnswerStatus.Correct);
             game.player1.paddle.increaseSize();
-            nextQuestion();
           } else {
-            answerD.setIncorrect();
+            answerD.setStatus(AnswerStatus.Incorrect);
             game.player1.paddle.decreaseSize();
           }
-          game.player1.startCooldown();
+          game.player1.setAnswered(true);
         }
       }
 
 
       // player 2
-      if (game.player2.curAnswerCooldown == 0) {
-        if (keys['7']) {
+      if (!game.player2.answered) {
+        if (keys['7'] && answerA.status != AnswerStatus.Incorrect) {
           if (correctAnswer == answerA) {
-            answerA.setCorrect();
-
+            answerA.setStatus(AnswerStatus.Correct);
             game.player2.paddle.increaseSize();
-            nextQuestion();
           } else {
-            answerA.setIncorrect();
+            answerA.setStatus(AnswerStatus.Incorrect);
             game.player2.paddle.decreaseSize();
           }
-          game.player2.startCooldown();
+          game.player2.setAnswered(true);
         }
-        if (keys['8']) {
+        if (keys['8'] && answerB.status != AnswerStatus.Incorrect) {
           if (correctAnswer == answerB) {
-            answerB.setCorrect();
+            answerB.setStatus(AnswerStatus.Correct);
             game.player2.paddle.increaseSize();
-            nextQuestion();
           } else {
-            answerB.setIncorrect();
+            answerB.setStatus(AnswerStatus.Incorrect);
             game.player2.paddle.decreaseSize();
           }
-          game.player2.startCooldown();
+          game.player2.setAnswered(true);
         }
-        if (keys['9']) {
+        if (keys['9'] && answerC.status != AnswerStatus.Incorrect) {
           if (correctAnswer == answerC) {
-            answerC.setCorrect();
+            answerC.setStatus(AnswerStatus.Correct);
             game.player2.paddle.increaseSize();
-            nextQuestion();
           } else {
-            answerC.setIncorrect();
+            answerC.setStatus(AnswerStatus.Incorrect);
             game.player2.paddle.decreaseSize();
           }
-          game.player2.startCooldown();
+          game.player2.setAnswered(true);
         }
-        if (keys['0']) {
+        if (keys['0'] && answerD.status != AnswerStatus.Incorrect) {
           if (correctAnswer == answerD) {
-            answerD.setCorrect();
+            answerD.setStatus(AnswerStatus.Correct);
             game.player2.paddle.increaseSize();
-            nextQuestion();
           } else {
-            answerD.setIncorrect();
+            answerD.setStatus(AnswerStatus.Incorrect);
             game.player2.paddle.decreaseSize();
           }
-          game.player2.startCooldown();
+          game.player2.setAnswered(true);
         }
       }
+      
+      if (answerA.status == AnswerStatus.Correct || answerB.status == AnswerStatus.Correct || answerC.status == AnswerStatus.Correct || answerD.status == AnswerStatus.Correct) {
+       nextQuestion();
+      }
+      if (game.player1.answered == true && game.player2.answered == true) {
+        nextQuestion();
+      }
+      
     }
   }
 

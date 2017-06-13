@@ -1,8 +1,8 @@
-class DifficultyScreen extends GUI {
+class DifficultyOverlay extends GUI {
   
   Label lblPlayerMode;
 
-  DifficultyScreen() {
+  DifficultyOverlay() {
     super(); 
     PVector size = new PVector(frameWidth / 4, 100);
     int spacingY = 50;

@@ -50,6 +50,29 @@ class Ball extends GraphicsComponent {
 
   void onUpdate() {
 
+
+    // for debugging purposes
+    float v = 5;
+    if (keys['f']) {
+      pos.x -= v;
+    }
+    if (keys['h']) {
+      pos.x += v;
+    }
+    if (keys['t']) {
+      pos.y -= v;
+    }
+    if (keys['g']) {
+      pos.y += v;
+    }
+
+    if (keys['b']) {
+      speed = 0;
+    }
+    // end debugging code
+
+
+
     // default position updating
     pos.x += speed * cos(theta);
     pos.y += speed * sin(theta);
@@ -62,6 +85,8 @@ class Ball extends GraphicsComponent {
         pos.x += speed * cos(theta);
         pos.y += speed * sin(theta);
       }
+      
+      speed += 0.1;
     }
 
     // collision with bottom wall
@@ -97,9 +122,16 @@ class Ball extends GraphicsComponent {
       // bounce the ball
       if (pos.x - size/2 <= paddle1.pos.x + paddle1.size.x/2) {
         if (pos.y + size/2 >= paddle1.pos.y - paddle1.size.y/2 && pos.y - size/2 <= paddle1.pos.y + paddle1.size.y/2) {
-          // if it collides with the paddle
-          // then the ball rebounds
-          theta = -1 * theta + PI;
+
+          // calculating angle trajectory on rebound
+          float ry = pos.y - paddle1.pos.y;
+
+          float rebound = ry / paddle1.size.y;
+          //assert(abs(rebound)<=1);
+          rebound *= 0.3;
+
+          theta = rebound;
+
           while (pos.x - size/2 <= paddle1.pos.x + paddle1.size.x/2) {
             pos.x += speed * cos(theta);
             pos.y += speed * sin(theta);
@@ -114,9 +146,16 @@ class Ball extends GraphicsComponent {
       // bounce the ball
       if (pos.x + size/2 >= paddle2.pos.x - paddle2.size.x/2) {
         if (pos.y + size/2 >= paddle2.pos.y - paddle2.size.y/2 && pos.y - size/2 <= paddle2.pos.y + paddle2.size.y/2) {
-          // if it collides with the paddle
-          // then the ball rebounds
-          theta = -1 * theta + PI;
+
+          // calculating angle trajectory on rebound
+          float ry = pos.y - paddle1.pos.y;
+
+          float rebound = ry / paddle1.size.y;
+          //assert(abs(rebound)<=1);
+          rebound *= -0.3;
+
+          theta = rebound+PI;
+
           while (pos.x + size/2 >= paddle2.pos.x - paddle2.size.x/2) {
             pos.x += speed * cos(theta);
             pos.y += speed * sin(theta);
