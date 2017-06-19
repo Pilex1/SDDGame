@@ -1,0 +1,45 @@
+VERBS
+
+paro;I prepare
+ceno;I eat
+laboro;I work
+dormio;I sleep
+audio;I hear
+maneo;I stay,I remain
+cano;I sing
+dico;I speak,I talk
+ambulo;I walk
+festino;I hurry
+iuvo;I help
+
+NOUNS
+
+puer;boy
+auxilium;help
+puella;girl
+canis;dog
+rex;king,prince,leader
+vir;man
+uxor;wife
+mater;mother
+pater;father
+frater;brother
+soror;sister
+amicus;friend
+hortus;garden
+filius;son
+filia;daughter
+agricola;farmer
+casa;house
+
+ADJECTIVES
+
+fessus;tired
+paratus;prepared
+laetus;happy
+tristis;sad
+novus;new
+ingens;huge
+iratus;angry
+bonus;good
+malus;bad
