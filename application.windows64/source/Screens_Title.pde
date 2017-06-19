@@ -286,7 +286,7 @@ class ControlsScreen extends GUI {
     y += spacingY;
     components.add(new Label(new PVector(frameWidth/2, y), normalSize, "I/K - Move paddle up/down"));
     y += spacingY;
-    components.add(new Label(new PVector(frameWidth/2, y), normalSize, "1/2/3/4 - Select multiple choice answer"));
+    components.add(new Label(new PVector(frameWidth/2, y), normalSize, "7/8/9/0 - Select multiple choice answer"));
 
     // button to go back to the instructions screen
     components.add(new Button(new PVector(frameWidth/4, backY), new PVector(frameWidth/2, 80), "Back", new IAction() {
