@@ -1240,7 +1240,6 @@ class PausedOverlay extends GUI {
     rect(0, 0, frameWidth, frameHeight);
   }
 }
-
 // in game screen that displays the question and 4 multiple choice answers
 class QuestionsScreen extends GUI {
 
