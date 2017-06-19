@@ -245,7 +245,6 @@ class AnswerLabel extends Label {
 
   color borderCorrectColor;
   color borderIncorrectColor;
-  color borderNeitherColor;
 
   AnswerStatus status;
 
@@ -254,11 +253,10 @@ class AnswerLabel extends Label {
 
     status = AnswerStatus.None;
 
-    borderCorrectColor = color(20, 255, 0);
+    borderCorrectColor = color(0, 255, 80);
     borderIncorrectColor = color(255, 0, 20);
-    borderNeitherColor = color(0, 0, 0);
 
-    borderWidth = 3;
+    borderWidth = 4;
   }
 
   void setStatus(AnswerStatus status) {

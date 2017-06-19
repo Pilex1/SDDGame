@@ -48,7 +48,7 @@ class SplashScreen extends GUI {
     if (curTime < displayTime) {
       background(backgroundColor);
     } else if (curTime < displayTime + transitionTime) {
-      // transition the background color
+      // transition the background colorx
       float offset = 5;
       float factor = (float)(curTime - displayTime-offset)/(transitionTime-offset);
       color c = lerpColor(backgroundColor, game.backgroundColor, factor);
@@ -217,7 +217,7 @@ class InstructionScreen extends GUI {
     // actual instructions contents
     float margin = 100;
     float y = 70;
-    TextArea instructions = new TextArea("Two players battle in an epic game of Pong. Each player has a paddle which is used to reflect a moving ball. Over time, the size of the paddle shrinks, making it more and more difficulty to reflect the ball. Once the ball reaches the edge of the screen, the current round is considered over, and the losing player will lose one life. Each player starts with 3 lives, and when one player reaches 0 lives, then that player is considered the loser, and the other player wins.\n\nQuestions will regularly appear at the top of the screen, which consist of a Latin word and 4 possible English translations. Players must answer these questions correctly to increase their paddle size. However, answering a question incorrectly will incur a penalty. Furthermore, questions must also be answered within the specified time limit, otherwise this will be considered as answering incorrectly. For each question, a player may only answer once. ", 
+    TextArea instructions = new TextArea("Two players battle in an epic game of Pong. Each player has a paddle which is used to reflect a moving ball. Over time, the size of the paddle shrinks, making it more and more difficulty to reflect the ball. Once the ball reaches the edge of the screen, the current round is considered over, and the losing player will lose one life. Each player starts with three lives, and when one player reaches zero lives, then that player is considered the loser, and the other player wins.\n\nQuestions will regularly appear at the top of the screen, which consist of a Latin word and 4 possible English translations. Players must answer these questions correctly to increase their paddle size. However, answering a question incorrectly will incur a penalty. Furthermore, questions must also be answered within the specified time limit, otherwise this will be considered as answering incorrectly. For each question, a player may only answer once. ", 
       new PVector(margin, y), new PVector(frameWidth-2*margin, 560-y));
     instructions.textSize = 20;
     components.add(instructions);
@@ -282,7 +282,7 @@ class ControlsScreen extends GUI {
     components.add(new Label(new PVector(frameWidth/2, y), normalSize, "1/2/3/4 - Select multiple choice answer"));
 
     y += headingSpacingY;
-    components.add(new Label(new PVector(frameWidth/2, y), subheadingSize, "Player 2 (Multiplayer only)"));
+    components.add(new Label(new PVector(frameWidth/2, y), subheadingSize, "Player 2"));
     y += spacingY;
     components.add(new Label(new PVector(frameWidth/2, y), normalSize, "I/K - Move paddle up/down"));
     y += spacingY;
