@@ -28,11 +28,17 @@ class Paddle extends GraphicsComponent {
 
   // gets called when an answer has been answered correctly; increases paddls size
   void increaseSize() {
+    
+    if (game.paused) return;
+    
     size.y += 30;
   }
 
   // gets called when an answer has been answered incorrectly; decreases paddle size
   void decreaseSize() {
+    
+    if (game.paused) return;
+    
     size.y -= 5;
     if (size.y < minimumY) {
       size.y = minimumY;
@@ -40,9 +46,11 @@ class Paddle extends GraphicsComponent {
   }
 
   void onUpdate() {
+    
+    if (game.paused) return;
 
     // gradually decrease paddle size
-    size.y -= 0.02;
+    size.y -= 0.04;
     if (size.y < minimumY) {
       size.y = minimumY;
     }

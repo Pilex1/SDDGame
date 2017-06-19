@@ -50,9 +50,10 @@ class Ball extends GraphicsComponent {
 
   void onUpdate() {
 
+    if (game.paused) return;
 
     // for debugging purposes
-    float v = 5;
+    /*float v = 5;
     if (keys['f']) {
       pos.x -= v;
     }
@@ -68,7 +69,7 @@ class Ball extends GraphicsComponent {
 
     if (keys['b']) {
       speed = 0;
-    }
+    }*/
     // end debugging code
 
 
@@ -128,7 +129,7 @@ class Ball extends GraphicsComponent {
 
           float rebound = ry / paddle1.size.y;
           //assert(abs(rebound)<=1);
-          rebound *= 0.3;
+          rebound *= 0.2;
 
           theta = rebound;
 

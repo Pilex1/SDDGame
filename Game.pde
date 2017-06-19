@@ -1,5 +1,14 @@
 class Game extends GUI {
 
+  boolean paused;
+
+  boolean launched;
+
+  // delay before successive pauses
+  // this is to prevent causing down the ESC key causing epilepsy
+  int pausedCooldown;
+  int curPausedCooldown;
+
   int gameWidth;
   int gameHeight;
 
@@ -12,16 +21,18 @@ class Game extends GUI {
   Ball ball;
 
   GameOption gameOption;
-  
+
   QuestionBank questionsEasy;
   QuestionBank questionsHard;
-  
+
   color backgroundColor;
 
   Game() {
 
+    pausedCooldown = 30;
+
     backgroundColor = color(38, 23, 84);
-    
+
     heightOffset = 200;
 
     gameWidth = frameWidth;
@@ -31,10 +42,10 @@ class Game extends GUI {
 
     Paddle paddle1 = new Paddle('w', 's', new PVector(paddleSize.x/2, gameHeight/2 + heightOffset), paddleSize);
     Paddle paddle2 = new Paddle('i', 'k', new PVector(gameWidth - paddleSize.x/2, gameHeight/2 + heightOffset), paddleSize);
-  
+
     player1 = new Player(paddle1);
     player2 = new Player(paddle2);
-  
+
     ball = new Ball(new PVector(gameWidth/2, gameHeight/2 + heightOffset));
 
     components.add(paddle1);
@@ -42,9 +53,39 @@ class Game extends GUI {
     components.add(ball);
 
     gameOption = new GameOption();
-    
+
     questionsEasy = new QuestionBank("vocabEasy1.txt");
     questionsHard = new QuestionBank("vocabHard1.txt");
+  }
+
+  // resets the game
+  void reset() {
+
+    PVector paddleSize = new PVector(20, 100);
+
+    player1.paddle.pos = new PVector(paddleSize.x/2, gameHeight/2 + heightOffset);
+    player1.paddle.size = paddleSize.copy();
+
+    player2.paddle.pos = new PVector(gameWidth - paddleSize.x/2, gameHeight/2 + heightOffset);
+    player2.paddle.size = paddleSize.copy();
+
+    ball.resetBall();
+    questionsScreen.reset();
+
+    paused = true;
+    launched = false;
+
+    gameOption = new GameOption();
+  }
+
+  // pauses or unpauses the game
+  void toggleState() {
+    paused = !paused;
+    if (paused) {
+      pausedOverlay.setActive(true);
+    } else {
+      pausedOverlay.setActive(false);
+    }
   }
 
   void launchGame() {
@@ -60,30 +101,47 @@ class Game extends GUI {
 
     setActive(true);
     questionsScreen.setActive(true);
-    
+
     questionsScreen.generateQuestion();
 
+    launched = true;
+    paused = false;
+  }
+
+  void onUpdate() {
+
+    if (curPausedCooldown > 0) {
+      curPausedCooldown--;
+    }
+
+    if (keyEscape && curPausedCooldown == 0) {
+      toggleState();
+      curPausedCooldown = pausedCooldown;
+    }
   }
 
   void onRender() {
     background(backgroundColor);
-  }
 
+    if (paused) {
+      pausedOverlay.onRender();
+    }
+  }
 }
 
 enum PlayerOption {
-   Singleplayer, Multiplayer 
+  Singleplayer, Multiplayer
 }
 enum DifficultyOption {
-   Easy, Hard 
+  Easy, Hard
 }
 
 class GameOption {
-   PlayerOption playerOption;
-   DifficultyOption difficulty;
-   
-   GameOption() {
+  PlayerOption playerOption;
+  DifficultyOption difficulty;
+
+  GameOption() {
     playerOption = null;
     difficulty = null;
-   }
+  }
 }

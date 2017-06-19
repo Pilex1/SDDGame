@@ -1,4 +1,4 @@
-import java.util.*;
+  import java.util.*;
 
 class QuestionBank {
 
@@ -82,12 +82,30 @@ class QuestionBank {
     while (true) {    
       LatinEnglishPair pair = incorrectAnswers.getNext();
 
+      // find a latinEnglish pair not in the excluded array
       for (LatinEnglishPair exclude : excluding) {
         if (exclude == pair) {
           // the exclude array contains the randomised element
           continue;
         }
       }
+      
+      boolean flag = false;
+      
+      // make sure that any of the English translations in the selected pair are not the same as any in the excluding array
+      for (String english : pair.englishTranslations) {
+        for (LatinEnglishPair p : excluding) {
+          if (p == null) continue;
+         for (String pEnglish : p.englishTranslations) {
+          if (pEnglish.equals(english)) {
+           flag = true; 
+          }
+         }
+        }
+      }
+      
+      if (flag) continue;
+      
       return pair;
     }
   }
