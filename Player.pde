@@ -20,6 +20,11 @@ class Player {
     restoreAllLives();
   }
 
+  void die() {
+   curLives--;
+   game.curCountdown = game.countdown;
+   game.ball.active = false;
+  }
 
   void setAnswered(boolean answered) {
     this.answered = answered;

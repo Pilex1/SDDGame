@@ -9,6 +9,8 @@ class Paddle extends GraphicsComponent {
   // however the y value should be constantly diminshing - players will have to correctly answer questions to grow the size of the paddle
   PVector size;
   
+  PVector originalSize;
+  
   float minimumY;
 
   color paddleColor;
@@ -17,9 +19,10 @@ class Paddle extends GraphicsComponent {
     super(pos);
     this.upKey = upKey;
     this.downKey = downKey;
+    this.originalSize = size.copy();
     this.pos = new PVector(pos.x, pos.y);
-    this.size = new PVector(size.x, size.y);
-    minimumY = 5;
+    this.size = size.copy();
+    minimumY = 0;
 
     paddleColor = color(141, 168, 206);
 
@@ -39,7 +42,7 @@ class Paddle extends GraphicsComponent {
     
     if (game.paused) return;
     
-    size.y -= 5;
+    size.y -= 30;
     if (size.y < minimumY) {
       size.y = minimumY;
     }

@@ -1,5 +1,5 @@
 class Ball extends GraphicsComponent {
-
+  
   // initial starting position of the ball
   // when a player loses, the ball also gets reset to this position
   PVector startingPos;
@@ -44,6 +44,10 @@ class Ball extends GraphicsComponent {
     pos.y = startingPos.y;
 
     theta = random(thetaMin, thetaMax);
+    
+    if (random(1) < 0.5) {
+     theta += PI; 
+    }
 
     outOfBounds = false;
   }
@@ -103,20 +107,16 @@ class Ball extends GraphicsComponent {
 
     Paddle paddle1 = game.player1.paddle;
     Paddle paddle2 = game.player2.paddle;
+    
+    float maxAngle = PI/4;
 
     if (outOfBounds) {
 
       if (pos.x - size/2 < 0) {
-        game.player1.lives--;
-
-        // reset the ball
-        resetBall();
+        game.player1.die();
       }
       if (pos.x + size/2 >= frameWidth) {
-        game.player2.lives--;
-
-        // reset the ball
-        resetBall();
+        game.player2.die();
       }
     } else {
       // collision with player 1 paddle (on the left of the screen)
@@ -132,11 +132,20 @@ class Ball extends GraphicsComponent {
           rebound *= 0.2;
 
           theta = rebound;
+          if (theta < -maxAngle) {
+           theta = maxAngle; 
+          }
+          if (theta > maxAngle) {
+           theta = maxAngle; 
+          }
+          
+          
+          pos.x = paddle1.pos.x + paddle1.size.x/2 + size/2;
 
-          while (pos.x - size/2 <= paddle1.pos.x + paddle1.size.x/2) {
+          /*while (pos.x - size/2 <= paddle1.pos.x + paddle1.size.x/2) {
             pos.x += speed * cos(theta);
             pos.y += speed * sin(theta);
-          }
+          }*/
         } else {
           // ball has gone out of bounds
           outOfBounds = true;
@@ -155,12 +164,22 @@ class Ball extends GraphicsComponent {
           //assert(abs(rebound)<=1);
           rebound *= -0.3;
 
-          theta = rebound+PI;
+          theta = rebound;
+          if (theta < -maxAngle) {
+           theta = -maxAngle; 
+          }
+          if (theta > maxAngle) {
+           theta = maxAngle; 
+          }
+          
+          theta+=PI;
+          
+          pos.x = paddle2.pos.x - paddle2.size.x/2 - size/2;
 
-          while (pos.x + size/2 >= paddle2.pos.x - paddle2.size.x/2) {
+          /*while (pos.x + size/2 >= paddle2.pos.x - paddle2.size.x/2) {
             pos.x += speed * cos(theta);
             pos.y += speed * sin(theta);
-          }
+          }*/
         } else {
           // ball has gone out of bounds
           outOfBounds = true;

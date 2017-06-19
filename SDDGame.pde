@@ -7,8 +7,10 @@ DifficultyScreen difficultyScreen;
 InstructionScreen instructionScreen;
 ControlsScreen controlsScreen;
 QuestionsScreen questionsScreen;
+GameDisplayScreen gameDisplayScreen;
 SplashScreen splashScreen;
 PausedOverlay pausedOverlay;
+DeathOverlay deathOverlay;
 Game game;
 
 Label copyright;
@@ -32,9 +34,11 @@ void setup() {
   instructionScreen = new InstructionScreen();
   controlsScreen = new ControlsScreen();
   questionsScreen = new QuestionsScreen();
+  gameDisplayScreen = new GameDisplayScreen();
   splashScreen = new SplashScreen();
   splashScreen.setActive(true);
   pausedOverlay = new PausedOverlay();
+  deathOverlay = new DeathOverlay();
 
   guis.add(splashScreen);
   guis.add(titleScreen);
@@ -42,7 +46,9 @@ void setup() {
   guis.add(instructionScreen);
   guis.add(controlsScreen);
   guis.add(questionsScreen);
+  guis.add(gameDisplayScreen);
   guis.add(pausedOverlay);
+  guis.add(deathOverlay);
 
   copyright = new Label(new PVector(frameWidth, frameHeight), new PVector(0, 0), "Copyright Alex Tan 2017");
   copyright.textSize = 24;

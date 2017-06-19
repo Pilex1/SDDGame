@@ -141,7 +141,7 @@ class Button extends GraphicsComponent {
     hoveredOver = false;
     active = false;
 
-    cooldown = 30;
+    cooldown = 15;
     curCooldown = 0;
   }
 
@@ -184,6 +184,7 @@ class Button extends GraphicsComponent {
 
 class Label extends GraphicsComponent {
 
+  color backgroundColor;
   // size of the label rectangle
   PVector size;
 
@@ -195,7 +196,19 @@ class Label extends GraphicsComponent {
 
   int hAlign;
   int vAlign;
-
+  
+  Label(PVector pos, int textSize, String text) {
+   super(pos);
+   backgroundColor = color(0, 0, 0, 0);
+    this.size = new PVector(0, 0);
+    font = createFont("Calibri", 1);
+    this.textSize = textSize;
+    this.text = text;
+    textColor = color(255, 255, 255);
+    hAlign = CENTER;
+    vAlign = CENTER;
+  }
+  
   Label(PVector pos, String text) {
     this(pos, new PVector(0, 0), text);
   }
@@ -215,6 +228,9 @@ class Label extends GraphicsComponent {
   }
 
   void onRender() {
+    fill(backgroundColor);
+    //rect(pos.x-size.x/2, pos.y-size.y/2, size.x, size.y);
+    noStroke();
     textAlign(hAlign, vAlign);
     fill(textColor);
     textFont(font);
@@ -250,10 +266,8 @@ class AnswerLabel extends Label {
   }
 
   void onRender() {
-    super.onRender(); 
-
     if (status == AnswerStatus.None) {
-      stroke(borderNeitherColor);
+    noStroke();
     } else if (status == AnswerStatus.Correct) {
       stroke(borderCorrectColor);
     } else if (status == AnswerStatus.Incorrect) {
@@ -262,9 +276,10 @@ class AnswerLabel extends Label {
       assert false;
     }
     strokeWeight(borderWidth);
-
-    fill(0, 0, 0, 0);
+    fill(39, 59, 62);
     rect(pos.x + borderWidth, pos.y + borderWidth, size.x - borderWidth*2, size.y - borderWidth*2);
+    
+      super.onRender(); 
   }
 }
 

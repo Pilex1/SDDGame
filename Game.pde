@@ -9,11 +9,17 @@ class Game extends GUI {
   int pausedCooldown;
   int curPausedCooldown;
 
+  // cooldown when a player dies before the ball is put in to the game again
+  int countdown = 120;
+  int curCountdown;
+
   int gameWidth;
   int gameHeight;
 
   // height offset for the questions GUI
-  int heightOffset;
+  int heightOffset = 250;
+  // height offset for the display GUI i.e. lives and time countdown
+  int displayOffset = 150;
 
   Player player1;
   Player player2;
@@ -29,11 +35,11 @@ class Game extends GUI {
 
   Game() {
 
+    curCountdown = 0;
     pausedCooldown = 30;
 
     backgroundColor = color(38, 23, 84);
 
-    heightOffset = 200;
 
     gameWidth = frameWidth;
     gameHeight = frameHeight-heightOffset;
@@ -52,7 +58,7 @@ class Game extends GUI {
     components.add(paddle2);
     components.add(ball);
 
-    gameOption = new GameOption();
+    gameOption = null;
 
     questionsEasy = new QuestionBank("vocabEasy1.txt");
     questionsHard = new QuestionBank("vocabHard1.txt");
@@ -68,6 +74,9 @@ class Game extends GUI {
 
     player2.paddle.pos = new PVector(gameWidth - paddleSize.x/2, gameHeight/2 + heightOffset);
     player2.paddle.size = paddleSize.copy();
+    
+    player1.curLives = player1.lives;
+    player2.curLives = player2.lives;
 
     ball.resetBall();
     questionsScreen.reset();
@@ -75,7 +84,9 @@ class Game extends GUI {
     paused = true;
     launched = false;
 
-    gameOption = new GameOption();
+    curCountdown = 0;
+
+    gameOption = null;
   }
 
   // pauses or unpauses the game
@@ -91,8 +102,6 @@ class Game extends GUI {
   void launchGame() {
 
     assert gameOption != null;
-    assert gameOption.playerOption != null;
-    assert gameOption.difficulty != null;
 
     // disable all title screen GUIs
     for (GUI gui : guis) {
@@ -101,6 +110,7 @@ class Game extends GUI {
 
     setActive(true);
     questionsScreen.setActive(true);
+    gameDisplayScreen.setActive(true);
 
     questionsScreen.generateQuestion();
 
@@ -109,6 +119,31 @@ class Game extends GUI {
   }
 
   void onUpdate() {
+
+    if (!launched) return;
+
+    if (curCountdown == 1) {
+
+      if (player1.curLives == 0) {
+        deathOverlay.setActive(true);
+        deathOverlay.description.text = "Player 2 has won!";
+      } else if (player2.curLives == 0) {
+        deathOverlay.setActive(true);
+        deathOverlay.description.text = "Player 1 has won!";
+      } else {
+        
+        questionsScreen.generateQuestion();
+        
+        game.ball.active = true;
+        game.ball.resetBall();
+      }
+    }
+
+    if (curCountdown > 0) {
+      curCountdown--;
+    }
+
+
 
     if (curPausedCooldown > 0) {
       curPausedCooldown--;
@@ -129,19 +164,6 @@ class Game extends GUI {
   }
 }
 
-enum PlayerOption {
-  Singleplayer, Multiplayer
-}
-enum DifficultyOption {
+enum GameOption {
   Easy, Hard
-}
-
-class GameOption {
-  PlayerOption playerOption;
-  DifficultyOption difficulty;
-
-  GameOption() {
-    playerOption = null;
-    difficulty = null;
-  }
 }
